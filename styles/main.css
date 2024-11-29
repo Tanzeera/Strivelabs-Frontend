@@ -1,0 +1,193 @@
+/* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the body fills the full viewport height */
+}
+
+/* Header styling */
+header {
+  display: flex;
+  flex-wrap: wrap; /* Makes it responsive for smaller screens */
+  gap: 20px;
+  padding: 10px 20px;
+  background-color: #f4f4f4;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  flex: 1;
+  margin: 0;
+  font-size: 1.8em;
+  color: #333;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+  flex: 2;
+}
+
+header input,
+header select {
+  padding: 8px;
+  font-size: 14px;
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+header input:focus,
+header select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Main content styling */
+main {
+  display: flex;
+  flex: 1; /* Ensures main stretches to fill remaining height */
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+}
+
+#countries-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.countryContainer {
+  padding: 10px;
+}
+
+/* Individual country card */
+.country-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.country-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.country-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.country-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 1.5em; /* Large enough for the heart icon */
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.2); /* Add a zoom effect on hover */
+}
+
+
+.favorite-active {
+  color: gold;
+}
+
+.favorite-inactive {
+  color: gray;
+}
+
+/* Favorites section */
+#favorites-container {
+  display: none; /* Hidden by default, shown dynamically */
+  flex-basis: 300px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-left: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.favorite-country {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.remove-favorite-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.remove-favorite-btn:hover {
+  background-color: #c82333;
+}
+
+/* "Load More" button */
+#load-more {
+  align-self: center; /* Centers horizontally */
+  margin: 20px auto 0; /* Adds space above the button */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#load-more:hover {
+  background-color: #0056b3;
+}
+
+/* Utility classes for responsiveness */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  header h1 {
+    text-align: center;
+  }
+
+  .search-container {
+    flex: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  header input,
+  header select {
+    font-size: 12px;
+  }
+}

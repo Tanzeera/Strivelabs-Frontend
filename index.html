@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Country Explorer</title>
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <div class="countryContainer">
+    <header>
+      <h1 class="h1-Style">Country Explorer</h1>
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search for a country..." aria-label="Search for a country">
+        <select id="region-filter" aria-label="Filter by region">
+          <option value="">All Regions</option>
+          <option value="Africa">Africa</option> 
+          <option value="Americas">Americas</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+        </select>
+        <select id="language-filter" aria-label="Filter by language">
+          <option value="">All Languages</option>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+        </select>
+      </div>
+    </header>
+    <main>
+      <section id="countries-container"></section>
+      <button id="load-more">Load More</button>
+      <aside id="favorites-container" style="display: none;">
+        <h2>Favorites</h2>
+      </aside>
+    </main>
+  </div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
