@@ -1,4 +1,4 @@
-Country Explorer
+## Country Explorer
 
 Country Explorer is a web application that allows users to explore information about countries worldwide. It offers features like keyword search, filtering by region or language, a favorites section, and detailed country views.
 
@@ -6,29 +6,25 @@ Setup Instructions
 Clone the Repository:
 First, clone the repository from GitHub:
 
-bash
-Copy code
 git clone https://github.com/Tanzeera/Strivelabs-Frontend.git  
 Navigate to the Project Folder:
 Change to the project directory:
 
-bash
-Copy code
 cd country-explorer  
 Open the Project in VS Code:
 Open the folder in Visual Studio Code:
-
-bash
-Copy code
 code .  
+
 Run with Live Server:
 Make sure the Live Server extension is installed in VS Code.
 Right-click the index.html file in the file explorer and select Open with Live Server.
 The app will open in your default browser.
-Note: While loading the page for the first time, the API call might fail to fetch countries due to network or caching issues. If no countries are displayed, try the following:
 
+Note: While loading the page for the first time, the API call might fail to fetch countries due to network or caching issues. If no countries are displayed, try the following:
 Refresh the page.
 Perform an Empty Cache and Hard Reload in your browser.
+
+
 Design Decisions
 Filter Logic:
 Filters for region and language are mutually exclusive, meaning only one filter can be applied at a time. This decision was made to avoid conflicting results.
@@ -59,23 +55,29 @@ Supported Browsers:
 Chrome
 Firefox
 Safari
+
 Mobile and Tablet Responsiveness:
 The application is fully responsive, with layouts optimized for devices ranging from small mobile screens to large desktop displays.
 It uses flexbox and CSS Grid for layout, ensuring fluidity across screen sizes.
+
 Known Issues:
 Older versions of Internet Explorer may not fully support CSS features like flexbox. It is recommended to use modern browsers for the best experience.
 Occasionally, the API call might fail on the first load. Refresh the page or clear the browser cache to resolve this.
+
 Features
 Search:
 Type in the search bar to find countries by name.
 Works in tandem with filters to narrow down results.
+
 Filters:
 Filter countries by region (e.g., Africa, Europe).
 Filter countries by language (e.g., English, French).
 Only one filter can be applied at a time.
+
 Favorites:
 Mark up to 5 countries as favorites.
 Favorites are saved in localStorage and persist across sessions.
+
 Country Details:
 Clicking a country card opens a detailed view with:
 Flag
@@ -84,13 +86,18 @@ Population
 Languages
 Region
 Area
+
 Load More:
 View 10 countries initially and load 10 more by clicking "Load More".
+
+
 Technologies Used
 HTML5 and CSS3: For layout, styling, and responsiveness.
 JavaScript (ES6): For dynamic functionality such as search, filters, and favorites.
 LocalStorage: For saving user preferences (favorites) between sessions.
 Flexbox and CSS Grid: For responsive layout.
+
+
 Known Limitations
 Filter Limitation:
 
