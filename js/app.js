@@ -132,4 +132,4 @@ async function handleCountryClick(event) {
   }
 }
 
-init();
+window.addEventListener("load", async () => { await init(); });  
