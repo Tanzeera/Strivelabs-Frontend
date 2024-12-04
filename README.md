@@ -1,4 +1,5 @@
-##Country Explorer
+Country Explorer
+
 Country Explorer is a web application that allows users to explore information about countries worldwide. It offers features like keyword search, filtering by region or language, a favorites section, and detailed country views.
 
 Setup Instructions
