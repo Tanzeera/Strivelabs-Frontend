@@ -1,14 +1,20 @@
 const API_URL = "https://restcountries.com/v3.1";
+const PROXY_URL = "https://api.allorigins.win/get?url=";
 
 export async function fetchAllCountries() {
   try {
-    console.log("Inside fetchAllCountries");
-    const response = await fetch(`${API_URL}/all`);
-    if (!response.ok) throw new Error("Failed to fetch countries");
-    return response.json();
+    const response = await fetch("https://restcountries.com/v3.1/all");
+
+    if (!response.ok) {
+      // Read the response text to get more details
+      const errorDetails = await response.text();
+      throw new Error(`Error: ${response.status} - ${response.statusText} - ${errorDetails}`);
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("Error fetching all countries:", error);
-    return [];
+    throw error;  // Re-throw to propagate to the caller
   }
 }
 

@@ -132,4 +132,6 @@ async function handleCountryClick(event) {
   }
 }
 
-window.addEventListener("load", async () => { await init(); });  
+window.addEventListener("DOMContentLoaded", async () => {
+  await init();
+});
