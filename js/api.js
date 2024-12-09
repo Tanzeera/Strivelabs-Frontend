@@ -13,11 +13,19 @@ export async function fetchAllCountries() {
 
 export async function searchCountries(query) {
   try {
-    const response = await fetch(`${API_URL}/name/${query}`);
-    if (!response.ok) throw new Error("Failed to fetch countries by name");
-    return response.json();
+    const response = await fetch(`${API_URL}/all`); // Fetch all countries
+    if (!response.ok) throw new Error("Failed to fetch countries");
+
+    const countries = await response.json();
+
+    // Filter countries by common name only
+    const filteredCountries = countries.filter((country) =>
+      country.name.common.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return filteredCountries;
   } catch (error) {
-    console.error("Error searching countries:", error);
+    console.error("Error searching countries by common name:", error);
     return [];
   }
 }

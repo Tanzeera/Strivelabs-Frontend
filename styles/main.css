@@ -310,6 +310,84 @@ p {
   margin: 10px 0;
 }
 
+/* Custom dropdown container */
+.custom-dropdown {
+  position: relative;
+  width: 200px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+/* Style for the button inside the dropdown */
+.custom-dropdown-btn {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: left;
+  width: 75%;
+  color: #333;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Change background when hovering over the button */
+.custom-dropdown-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Highlight active filter button */
+.custom-dropdown-btn.active-filter {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Custom dropdown list (hidden by default) */
+.custom-dropdown-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Active dropdown - when a filter is active, change its border */
+.custom-dropdown.active .custom-dropdown-list {
+  display: block;
+  border-color: #4CAF50;
+  background-color: #f8f8f8;
+}
+
+/* List items for dropdown */
+.custom-dropdown-list li {
+  padding: 10px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Hover effect on dropdown items */
+.custom-dropdown-list li:hover {
+  background-color: #f4f4f4;
+}
+
+/* Active filter style for selected dropdown items */
+.custom-dropdown-list li.active-filter {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Show the list when the dropdown is active */
+.custom-dropdown.open .custom-dropdown-list {
+  display: block;
+}
+
 /* Styling for country-specific details */
 strong {
   color: #333;

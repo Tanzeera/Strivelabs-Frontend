@@ -11,21 +11,35 @@
     <header>
       <h1 class="h1-Style">Country Explorer</h1>
       <div class="search-container">
-        <input type="text" id="search-bar" placeholder="Search for a country..." aria-label="Search for a country">
-        <select id="region-filter" aria-label="Filter by region">
-          <option value="">All Regions</option>
-          <option value="Africa">Africa</option>
-          <option value="Americas">Americas</option>
-          <option value="Asia">Asia</option>
-          <option value="Europe">Europe</option>
-          <option value="Oceania">Oceania</option>
-        </select>
-        <select id="language-filter" aria-label="Filter by language">
-          <option value="">All Languages</option>
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-        </select>
+        <input type="text" id="search-bar" placeholder="Search countries..." autocomplete="off" />
+          <ul id="search-dropdown"></ul>       
+          <div class="filter-container">
+            <span>Region</span>
+            <div id="region-filter" class="custom-dropdown">
+              <div class="custom-dropdown-btn">All Regions</div>
+              <ul class="custom-dropdown-list">
+                <li data-value="">All Regions</li>
+                <li data-value="Africa">Africa</li>
+                <li data-value="Americas">Americas</li>
+                <li data-value="Asia">Asia</li>
+                <li data-value="Europe">Europe</li>
+                <li data-value="Oceania">Oceania</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="filter-container">
+            <span>Language</span>
+            <div id="language-filter" class="custom-dropdown">
+              <div class="custom-dropdown-btn">All Languages</div>
+              <ul class="custom-dropdown-list">
+                <li data-value="">All Languages</li>
+                <li data-value="en">English</li>
+                <li data-value="es">Spanish</li>
+                <li data-value="fr">French</li>
+              </ul>
+            </div>
+          </div>          
       </div>
     </header>
     <main>
@@ -35,6 +49,7 @@
       <!-- Load More Button Container -->
       <div id="load-more-container">
         <button id="load-more">Load More</button>
+        <button id="reset-button">Reset</button>
       </div>
 
       <!-- Favorites Container -->

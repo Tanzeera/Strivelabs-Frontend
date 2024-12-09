@@ -1,32 +1,38 @@
 import { fetchCountryDetails } from "./api.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const countryName = localStorage.getItem('selectedCountry');  // Retrieve the selected country name
+async function loadCountryDetails() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const countryName = urlParams.get("name");
+
   if (!countryName) {
-    // If no country is selected, redirect to the main page
-    window.location.href = 'index.html'; 
+    console.error("No country specified in the URL.");
     return;
   }
 
-  const countryDetails = await fetchCountryDetails(countryName);
-  renderCountryDetails(countryDetails);
-});
+  try {
+    const countryDetails = await fetchCountryDetails(countryName);
+    renderCountryDetails(countryDetails);
+  } catch (error) {
+    console.error("Error fetching country details:", error);
+  }
+}
 
 function renderCountryDetails(country) {
-  const container = document.getElementById("country-details");
-
-  container.innerHTML = `
+  const detailsContainer = document.getElementById("country-details");
+  
+  // Example rendering logic
+  detailsContainer.innerHTML = `
     <h1>${country.name.common}</h1>
-    <img src="${country.flags.png}" alt="Flag of ${country.name.common}" />
-    <p><strong>Top Level Domain:</strong> ${country.tld.join(", ")}</p>
-    <p><strong>Capital:</strong> ${country.capital}</p>
-    <p><strong>Region:</strong> ${country.region}</p>
-    <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
-    <p><strong>Area:</strong> ${country.area.toLocaleString()} km²</p>
-    <p><strong>Languages:</strong> ${Object.values(country.languages || {}).join(", ")}</p>
+    <p>Region: ${country.region}</p>
+    <p>Population: ${country.population}</p>
+    <p>Languages: ${Object.values(country.languages || {}).join(", ")}</p>
+    <p>Capital: ${country.capital ? country.capital[0] : "N/A"}</p>
+    <img src="${country.flags.svg}" alt="${country.name.common} flag" />
   `;
-
-  document.getElementById("back-button").addEventListener("click", () => {
-    window.location.href = 'index.html';  // Redirect back to the main page
-  });
 }
+
+function changePage() {
+    window.location.href("country-details.html");
+}
+
+window.addEventListener("DOMContentLoaded", loadCountryDetails);

@@ -11,6 +11,27 @@ document.getElementById("load-more").addEventListener("click", loadMore);
 document.getElementById("region-filter").addEventListener("change", handleFilter);
 document.getElementById("language-filter").addEventListener("change", handleFilter);
 document.getElementById("countries-container").addEventListener("click", handleCountryClick);
+document.getElementById("reset-button").addEventListener("click", resetState);
+
+// Save the current state to localStorage
+function saveState() {
+  localStorage.setItem("displayedCount", displayedCount);
+  localStorage.setItem("currentSearchResults", JSON.stringify(currentSearchResults));
+}
+
+// Restore the state from localStorage
+function restoreState() {
+  const savedCount = localStorage.getItem("displayedCount");
+  const savedResults = localStorage.getItem("currentSearchResults");
+
+  if (savedCount && savedResults) {
+    displayedCount = parseInt(savedCount, 10);
+    currentSearchResults = JSON.parse(savedResults);
+  } else {
+    displayedCount = 10;
+    currentSearchResults = countries.slice(0, displayedCount);
+  }
+}
 
 function toggleFavorite(countryName) {
   const index = favorites.indexOf(countryName);
@@ -38,54 +59,167 @@ document.getElementById("close-message").addEventListener("click", () => {
 
 async function init() {
   countries = await fetchAllCountries();
-  currentSearchResults = countries.slice(0, 10);
+  restoreState(); // Restore the state if available
   renderCountries(currentSearchResults, favorites);
-  displayedCount = 10;
   renderFavorites(favorites);
 }
 
-function handleSearch(event) {
+async function handleSearch(event) {
   const query = event.target.value.trim();
-  const regionSelect = document.getElementById("region-filter");
-  const languageSelect = document.getElementById("language-filter");
-  const region = regionSelect.value;
-  const language = languageSelect.value;
+  const dropdown = document.getElementById("search-dropdown");
 
-  let filteredCountries = countries;
-
-  if (region) {
-    filteredCountries = filteredCountries.filter(country => country.region === region);
-  }
-  if (language) {
-    filteredCountries = filteredCountries.filter(country =>
-      Object.values(country.languages || {}).some(lang => lang.toLowerCase() === language.toLowerCase())
-    );
-  }
-  if (query) {
-    filteredCountries = filteredCountries.filter(country =>
-      country.name.common.toLowerCase().includes(query.toLowerCase())
-    );
+  if (!query) {
+    dropdown.style.display = "none";
+    return;
   }
 
-  renderCountries(filteredCountries, favorites);
+  const searchResults = await searchCountries(query);
+  
+  // Limit to 5 results for dropdown suggestions
+  const suggestions = searchResults.slice(0, 5);
+
+  // Create dropdown items dynamically
+  dropdown.innerHTML = suggestions
+    .map(
+      (country) => `
+      <li class="dropdown-item" data-name="${country.name.common}">
+        ${country.name.common}
+      </li>`
+    )
+    .join("");
+
+  // Add "View All" at the bottom of the dropdown
+  dropdown.innerHTML += `
+    <li class="dropdown-item view-all" data-query="${query}">
+      View All
+    </li>`;
+
+  dropdown.style.display = "block";
 }
+
+document.getElementById("search-dropdown").addEventListener("click", async (event) => {
+  const target = event.target;
+
+  if (target.classList.contains("dropdown-item")) {
+    const countryName = target.dataset.name;
+    if (countryName) {
+      // Handle clicking on a country suggestion
+      const detailsUrl = `country-details.html?name=${encodeURIComponent(countryName)}`;
+      window.open(detailsUrl, '_blank'); // Open country details in a new tab
+    } else if (target.classList.contains("view-all")) {
+      // Handle "View All" interaction
+      const query = target.dataset.query;
+      const allResults = await searchCountries(query);
+      console.log(allResults);
+      currentSearchResults = allResults;
+      renderCountries(currentSearchResults, favorites);
+      document.getElementById("search-dropdown").style.display = "none";
+    }
+  }
+});
+
+// Close dropdown if clicked outside
+document.addEventListener("click", (event) => {
+  const dropdown = document.getElementById("search-dropdown");
+  if (!dropdown.contains(event.target) && event.target.id !== "search-bar") {
+    dropdown.style.display = "none";
+  }
+});
+
+// CSS for dropdown
+const style = document.createElement("style");
+style.innerHTML = `
+  #search-dropdown {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    right: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    display: none;
+  }
+
+  .dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .dropdown-item:hover {
+    background-color: #f4f4f4;
+  }
+
+  .view-all {
+    font-weight: bold;
+    text-align: center;
+    color: blue;
+  }
+`;
+document.head.appendChild(style);
+
+// Add event listener for the dropdown button to toggle visibility of the list
+document.querySelectorAll('.custom-dropdown-btn').forEach(dropdownBtn => {
+  dropdownBtn.addEventListener('click', function () {
+    const dropdown = this.closest('.custom-dropdown');
+    dropdown.classList.toggle('open');  // Toggle visibility of the dropdown list
+    dropdown.classList.toggle('active');  // Toggle active class for visual styling
+  });
+});
+
+// Add event listener for each dropdown list item (filter option)
+document.querySelectorAll('.custom-dropdown-list li').forEach(item => {
+  item.addEventListener('click', function () {
+    const dropdown = this.closest('.custom-dropdown');
+    const value = this.dataset.value;  // Get the value of the selected item
+    const button = dropdown.querySelector('.custom-dropdown-btn');  // Get the dropdown button
+    
+    // Update the button text to reflect the selected value
+    button.textContent = this.textContent;
+
+    // Add 'active-filter' class to the selected item
+    dropdown.querySelectorAll('li').forEach(li => li.classList.remove('active-filter'));
+    this.classList.add('active-filter');
+
+    // Add 'active-filter' class to the dropdown button
+    button.classList.add('active-filter');
+
+    // Close the dropdown after selecting an option
+    dropdown.classList.remove('open');  // Hide the dropdown list
+    dropdown.classList.add('active');   // Mark the dropdown as active to show styling
+
+    // Trigger the filter function based on the selected value
+    handleFilter();
+  });
+});
+
+// Close the dropdown when clicking outside
+document.addEventListener('click', function (event) {
+  document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove('open');  // Close dropdown if clicked outside
+      dropdown.classList.remove('active'); // Remove active class if clicked outside
+    }
+  });
+});
 
 function handleFilter() {
-  const regionSelect = document.getElementById("region-filter");
-  const languageSelect = document.getElementById("language-filter");
+  const regionSelect = document.querySelector("#region-filter .custom-dropdown-btn").textContent.trim();
+  const languageSelect = document.querySelector("#language-filter .custom-dropdown-btn").textContent.trim();
   const query = document.getElementById("search-bar").value.trim();
-
-  const region = regionSelect.value;
-  const language = languageSelect.value;
 
   let filteredCountries = countries;
 
-  if (region) {
-    filteredCountries = filteredCountries.filter(country => country.region === region);
+  if (regionSelect !== "All Regions") {
+    filteredCountries = filteredCountries.filter(country => country.region === regionSelect);
   }
-  if (language) {
+  if (languageSelect !== "All Languages") {
     filteredCountries = filteredCountries.filter(country =>
-      Object.values(country.languages || {}).some(lang => lang.toLowerCase() === language.toLowerCase())
+      Object.values(country.languages || {}).some(lang => lang.toLowerCase() === languageSelect.toLowerCase())
     );
   }
   if (query) {
@@ -94,12 +228,17 @@ function handleFilter() {
     );
   }
 
-  renderCountries(filteredCountries, favorites);
+  currentSearchResults = filteredCountries.slice(0, displayedCount); // Update the filtered results
+  renderCountries(currentSearchResults, favorites);
+  saveState(); // Save the updated state
 }
+
 
 function loadMore() {
   displayedCount += 10;
-  renderCountries(countries.slice(0, displayedCount), favorites);
+  currentSearchResults = countries.slice(0, displayedCount); // Update the current results
+  renderCountries(currentSearchResults, favorites);
+  saveState(); // Save the updated state
 }
 
 async function handleCountryClick(event) {
@@ -119,13 +258,20 @@ async function handleCountryClick(event) {
   const card = target.closest(".country-card");
   if (card) {
     const countryName = card.dataset.name;
-    const countryDetails = await fetchCountryDetails(countryName);
-
-    // Open the country details page in a new tab
+    saveState(); // Save the state before navigating to the details page
     const detailsUrl = `country-details.html?name=${encodeURIComponent(countryName)}`;
-    window.open(detailsUrl, '_blank');  // Navigate to the country details page
+    window.open(detailsUrl, '_blank'); // Open the country details page in a new tab
   }
 }
+
+
+function resetState() {
+  localStorage.removeItem("displayedCount");
+  localStorage.removeItem("currentSearchResults");
+  localStorage.removeItem("favorites");
+  window.location.reload(); // Reload the page to reset
+}
+
 
 window.addEventListener("DOMContentLoaded", async () => {
   await init();
