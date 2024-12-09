@@ -14,7 +14,7 @@
         <input type="text" id="search-bar" placeholder="Search for a country..." aria-label="Search for a country">
         <select id="region-filter" aria-label="Filter by region">
           <option value="">All Regions</option>
-          <option value="Africa">Africa</option> 
+          <option value="Africa">Africa</option>
           <option value="Americas">Americas</option>
           <option value="Asia">Asia</option>
           <option value="Europe">Europe</option>
@@ -29,11 +29,27 @@
       </div>
     </header>
     <main>
+      <!-- Countries Container -->
       <section id="countries-container"></section>
-      <button id="load-more">Load More</button>
-      <aside id="favorites-container" style="display: none;">
+
+      <!-- Load More Button Container -->
+      <div id="load-more-container">
+        <button id="load-more">Load More</button>
+      </div>
+
+      <!-- Favorites Container -->
+      <div id="favorites-container">
         <h2>Favorites</h2>
-      </aside>
+        <ul id="favorites-list"></ul>
+      </div>
+
+      <!-- Message Container (Pop-up for messages) -->
+      <div id="message-container" class="message" style="display: none;">
+        <div class="message-content">
+          <p id="message-text"></p>
+          <button id="close-message" class="close-btn">×</button>
+        </div>
+      </div>
     </main>
   </div>
   <script type="module" src="./js/app.js"></script>

@@ -1,5 +1,5 @@
 import { fetchAllCountries, searchCountries, fetchCountryDetails } from "./api.js";
-import { renderCountries, renderFavorites, renderCountryDetails } from "./ui.js";
+import { renderCountries, renderFavorites } from "./ui.js";
 
 let countries = [];
 let displayedCount = 0;
@@ -14,14 +14,27 @@ document.getElementById("countries-container").addEventListener("click", handleC
 
 function toggleFavorite(countryName) {
   const index = favorites.indexOf(countryName);
+  const messageContainer = document.getElementById("message-container");
+  const messageText = document.getElementById("message-text");
+
   if (index > -1) {
     favorites.splice(index, 1);
   } else if (favorites.length < 5) {
     favorites.push(countryName);
+  } else {
+    messageText.textContent = "You can only add up to 5 favorites!";
+    messageContainer.style.display = "flex";
+    return;
   }
+
   localStorage.setItem("favorites", JSON.stringify(favorites));
   renderFavorites(favorites);
 }
+
+document.getElementById("close-message").addEventListener("click", () => {
+  const messageContainer = document.getElementById("message-container");
+  messageContainer.style.display = "none";
+});
 
 async function init() {
   countries = await fetchAllCountries();
@@ -33,7 +46,6 @@ async function init() {
 
 function handleSearch(event) {
   const query = event.target.value.trim();
-
   const regionSelect = document.getElementById("region-filter");
   const languageSelect = document.getElementById("language-filter");
   const region = regionSelect.value;
@@ -41,29 +53,22 @@ function handleSearch(event) {
 
   let filteredCountries = countries;
 
-  // Apply active filter
   if (region) {
-    filteredCountries = filteredCountries.filter(
-      (country) => country.region === region
-    );
-  } else if (language) {
-    filteredCountries = filteredCountries.filter((country) =>
-      Object.values(country.languages || {}).some(
-        (lang) => lang.toLowerCase() === language.toLowerCase()
-      )
+    filteredCountries = filteredCountries.filter(country => country.region === region);
+  }
+  if (language) {
+    filteredCountries = filteredCountries.filter(country =>
+      Object.values(country.languages || {}).some(lang => lang.toLowerCase() === language.toLowerCase())
     );
   }
-
-  // Apply search query
   if (query) {
-    filteredCountries = filteredCountries.filter((country) =>
+    filteredCountries = filteredCountries.filter(country =>
       country.name.common.toLowerCase().includes(query.toLowerCase())
     );
   }
 
   renderCountries(filteredCountries, favorites);
 }
-
 
 function handleFilter() {
   const regionSelect = document.getElementById("region-filter");
@@ -75,35 +80,22 @@ function handleFilter() {
 
   let filteredCountries = countries;
 
-  // Apply region filter if selected
-  if (region && !language) {
-    languageSelect.value = ""; // Clear the language filter
-    filteredCountries = filteredCountries.filter(
-      (country) => country.region === region
+  if (region) {
+    filteredCountries = filteredCountries.filter(country => country.region === region);
+  }
+  if (language) {
+    filteredCountries = filteredCountries.filter(country =>
+      Object.values(country.languages || {}).some(lang => lang.toLowerCase() === language.toLowerCase())
     );
   }
-
-  // Apply language filter if selected
-  if (language && !region) {
-    regionSelect.value = ""; // Clear the region filter
-    filteredCountries = filteredCountries.filter((country) =>
-      Object.values(country.languages || {}).some(
-        (lang) => lang.toLowerCase() === language.toLowerCase()
-      )
-    );
-  }
-
-  // Apply search query if present
   if (query) {
-    filteredCountries = filteredCountries.filter((country) =>
+    filteredCountries = filteredCountries.filter(country =>
       country.name.common.toLowerCase().includes(query.toLowerCase())
     );
   }
 
   renderCountries(filteredCountries, favorites);
 }
-
-
 
 function loadMore() {
   displayedCount += 10;
@@ -128,7 +120,10 @@ async function handleCountryClick(event) {
   if (card) {
     const countryName = card.dataset.name;
     const countryDetails = await fetchCountryDetails(countryName);
-    renderCountryDetails(countryDetails);
+
+    // Open the country details page in a new tab
+    const detailsUrl = `country-details.html?name=${encodeURIComponent(countryName)}`;
+    window.open(detailsUrl, '_blank');  // Navigate to the country details page
   }
 }
 

@@ -24,27 +24,6 @@ function createCountryCard(country, favorites) {
   `;
 }
 
-export function renderCountryDetails(country) {
-  const container = document.getElementById("countries-container");
-  container.innerHTML = `
-    <div class="country-details">
-      <button id="back-button">← Back</button>
-      <h1>${country.name.common}</h1>
-      <img src="${country.flags.png}" alt="Flag of ${country.name.common}" />
-      <p><strong>Top Level Domain:</strong> ${country.tld.join(", ")}</p>
-      <p><strong>Capital:</strong> ${country.capital}</p>
-      <p><strong>Region:</strong> ${country.region}</p>
-      <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
-      <p><strong>Area:</strong> ${country.area.toLocaleString()} km²</p>
-      <p><strong>Languages:</strong> ${Object.values(country.languages || {}).join(", ")}</p>
-    </div>
-  `;
-
-  document.getElementById("back-button").addEventListener("click", () => {
-    renderCountries(currentSearchResults, favorites);
-  });
-}
-
 export function renderFavorites(favorites) {
   const container = document.getElementById("favorites-container");
 
