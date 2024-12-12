@@ -1,4 +1,3 @@
-/* General body styling */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -6,25 +5,25 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the body fills the full viewport height */
+  min-height: 100vh; 
 }
 
-/* Styles for the pop-up message container */
+
 .message {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Transparent background */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it shows on top of all content */
-  display: none; /* Hidden by default */
+  z-index: 9999; 
+  display: none; 
 }
 
-/* Styles for the message content */
+
 .message-content {
   background-color: #f8d7da;
   color: #721c24;
@@ -36,7 +35,7 @@ body {
   width: 100%;
 }
 
-/* Close button for the message */
+
 .close-btn {
   background: none;
   border: none;
@@ -47,13 +46,12 @@ body {
   margin-top: 10px;
 }
 
-/* Style for close button hover */
+
 .close-btn:hover {
   color: #555;
 }
 
 
-/* Header styling */
 header {
   display: flex;
   flex-wrap: wrap;
@@ -93,61 +91,116 @@ header select:focus {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Main content styling */
+
 main {
   display: flex;
-  flex-direction: row; /* Align countries and favorites side by side */
+  flex-direction: row; 
   flex: 1;
   gap: 20px;
   padding: 20px;
   position: relative;
 }
 
-/* Countries container: flexibly expands */
+
 #countries-container {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 equal-width columns */
+  grid-template-columns: repeat(5, 1fr); 
   gap: 20px;
-  padding-bottom: 60px; /* Add space for the "Load More" button */
+  padding-bottom: 60px;
 }
 
 @media (max-width: 1024px) {
   #countries-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns on medium screens */
+    grid-template-columns: repeat(3, 1fr); 
   }
 }
 
 @media (max-width: 768px) {
   #countries-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    grid-template-columns: repeat(2, 1fr); 
   }
 }
 
 @media (max-width: 576px) {
   #countries-container {
-    grid-template-columns: 1fr; /* 1 column on mobile devices */
+    grid-template-columns: 1fr; 
   }
 }
 
-/* Favorites container: fixed width on the right */
 #favorites-container {
   flex: 0 0 300px;
-  display: block;
+  display: flex;
+  flex-direction: column; 
   padding: 15px;
   background-color: #f9f9f9;
   border-left: 1px solid #ccc;
   border-radius: 8px;
+  margin-top: 20px; 
+  width: 100%;
+  box-sizing: border-box; 
+  max-height: 500px;
+  overflow-y: auto; 
 }
 
-/* Individual country card */
-.country-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+
+.favorite-country {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 10px; 
+}
+
+
+.remove-favorite-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.remove-favorite-btn:hover {
+  background-color: #c0392b; 
+}
+
+
+#countries-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px;
+  padding-bottom: 60px; 
+}
+
+@media (max-width: 1024px) {
+  #countries-container {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+@media (max-width: 768px) {
+  #countries-container {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media (max-width: 576px) {
+  #countries-container {
+    grid-template-columns: 1fr; 
+  }
+
+
+  #favorites-container {
+    margin-top: 20px; 
+    padding: 10px; 
+    width: 100%; 
+    border-left: none; 
+    border-top: 1px solid #ccc; 
+    border-radius: 8px; 
+  }
 }
 
 .country-card:hover {
@@ -171,6 +224,26 @@ main {
   object-fit: cover;
 }
 
+.country-card {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; 
+  position: relative;
+}
+
+
+.country-card h2 {
+  font-size: 1.5em;
+  margin: 10px 0; 
+}
+
+
 .favorite-btn {
   background: none;
   border: none;
@@ -178,10 +251,11 @@ main {
   cursor: pointer;
   padding: 5px;
   transition: transform 0.2s;
+  margin-top: 10px; 
 }
 
 .favorite-btn:hover {
-  transform: scale(1.2);
+  transform: scale(1.2); 
 }
 
 .favorite-active {
@@ -192,7 +266,7 @@ main {
   color: gray;
 }
 
-/* Load More button container */
+
 #load-more-container {
   position: absolute;
   bottom: 10px;
@@ -200,6 +274,9 @@ main {
   transform: translateX(-50%);
   width: 100%;
   text-align: center;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #load-more {
@@ -216,10 +293,10 @@ main {
   background-color: #0056b3;
 }
 
-/* Utility classes for responsiveness */
+
 @media (max-width: 768px) {
   main {
-    flex-direction: column; /* Stack countries and favorites vertically */
+    flex-direction: column; 
   }
 
   #favorites-container {
@@ -249,7 +326,7 @@ main {
 }
 
 
-/* General Body Styling */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -257,7 +334,7 @@ body {
   background-color: #f4f4f4;
 }
 
-/* Container for country details */
+
 .country-details-container {
   max-width: 1200px;
   margin: 50px auto;
@@ -270,6 +347,7 @@ body {
 button {
   font-size: 16px;
   padding: 10px 20px;
+  margin-left: 10px;
   cursor: pointer;
   background-color: #007BFF;
   color: white;
@@ -297,7 +375,7 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* Styling for country information */
+
 h1 {
   font-size: 36px;
   color: #333;
@@ -310,7 +388,7 @@ p {
   margin: 10px 0;
 }
 
-/* Custom dropdown container */
+
 .custom-dropdown {
   position: relative;
   width: 200px;
@@ -318,7 +396,7 @@ p {
   margin-bottom: 10px;
 }
 
-/* Style for the button inside the dropdown */
+
 .custom-dropdown-btn {
   padding: 10px;
   background-color: #fff;
@@ -331,18 +409,18 @@ p {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Change background when hovering over the button */
+
 .custom-dropdown-btn:hover {
   background-color: #f0f0f0;
 }
 
-/* Highlight active filter button */
+
 .custom-dropdown-btn.active-filter {
   background-color: #4CAF50;
   color: white;
 }
 
-/* Custom dropdown list (hidden by default) */
+
 .custom-dropdown-list {
   display: none;
   position: absolute;
@@ -358,37 +436,37 @@ p {
   transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
-/* Active dropdown - when a filter is active, change its border */
+
 .custom-dropdown.active .custom-dropdown-list {
   display: block;
   border-color: #4CAF50;
   background-color: #f8f8f8;
 }
 
-/* List items for dropdown */
+
 .custom-dropdown-list li {
   padding: 10px;
   cursor: pointer;
   color: #333;
 }
 
-/* Hover effect on dropdown items */
+
 .custom-dropdown-list li:hover {
   background-color: #f4f4f4;
 }
 
-/* Active filter style for selected dropdown items */
+
 .custom-dropdown-list li.active-filter {
   background-color: #4CAF50;
   color: white;
 }
 
-/* Show the list when the dropdown is active */
+
 .custom-dropdown.open .custom-dropdown-list {
   display: block;
 }
 
-/* Styling for country-specific details */
+
 strong {
   color: #333;
   font-weight: bold;
@@ -404,26 +482,64 @@ ul li {
   color: #555;
 }
 
-/* For better mobile responsiveness */
+
 @media (max-width: 768px) {
-  .country-details-container {
-    margin: 20px;
-    padding: 15px;
+  main {
+    flex-direction: column; 
   }
 
-  h1 {
-    font-size: 28px;
+  #favorites-container {
+    flex: none;
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 20px; 
+    background-color: #f9f9f9; 
+    border-left: none; 
+    border-top: 1px solid #ccc; 
+    border-radius: 8px; 
   }
 
-  #country-details img {
-    width: 150px;
+  header {
+    flex-direction: column; 
+    gap: 10px; 
   }
 
-  p, ul li {
-    font-size: 16px;
+  header h1 {
+    text-align: center; 
   }
 
-  button {
-    width: 100%;
+  .search-container {
+    flex-direction: column; 
+    width: 100%; 
+    gap: 10px; 
   }
 }
+
+
+@media (max-width: 576px) {
+  #countries-container {
+    grid-template-columns: 1fr; 
+  }
+
+  #favorites-container {
+    flex: none;
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 20px; 
+    background-color: #f9f9f9; 
+    border-left: none; 
+    border-top: 1px solid #ccc; 
+    border-radius: 8px; 
+  }
+  
+  header input,
+  header select {
+    font-size: 12px; 
+    width: 100%; 
+  }
+
+  .search-container {
+    gap: 5px; 
+  }
+}
+

@@ -13,12 +13,12 @@ export async function fetchAllCountries() {
 
 export async function searchCountries(query) {
   try {
-    const response = await fetch(`${API_URL}/all`); // Fetch all countries
+    const response = await fetch(`${API_URL}/all`); 
     if (!response.ok) throw new Error("Failed to fetch countries");
 
     const countries = await response.json();
 
-    // Filter countries by common name only
+    
     const filteredCountries = countries.filter((country) =>
       country.name.common.toLowerCase().includes(query.toLowerCase())
     );
@@ -35,7 +35,7 @@ export async function fetchCountryDetails(countryName) {
     const response = await fetch(`${API_URL}/name/${countryName}`);
     if (!response.ok) throw new Error("Failed to fetch country details");
     const countries = await response.json();
-    return countries[0];  // Return the first result
+    return countries[0]; 
   } catch (error) {
     console.error("Error fetching country details:", error);
     return null;

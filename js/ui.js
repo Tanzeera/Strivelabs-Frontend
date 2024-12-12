@@ -1,10 +1,12 @@
-import { currentSearchResults, favorites } from "./app.js";
+import { currentSearchResults, favorites, displayedCount } from "./app.js";
 
 export function renderCountries(countries, favorites) {
   const container = document.getElementById("countries-container");
-  container.innerHTML = countries.map((country) =>
-    createCountryCard(country, favorites)
-  ).join("");
+
+
+  countries.forEach((country) => {
+    container.innerHTML += createCountryCard(country, favorites);
+  });
 }
 
 function createCountryCard(country, favorites) {
@@ -49,8 +51,16 @@ function removeFavorite(countryName) {
     favorites.splice(index, 1);
   }
   localStorage.setItem("favorites", JSON.stringify(favorites));
+
+
   renderFavorites(favorites);
-  renderCountries(currentSearchResults, favorites);
+
+
+  const container = document.getElementById("countries-container");
+  container.innerHTML = ""; 
+
+
+  renderCountries(currentSearchResults.slice(0, displayedCount), favorites);
 }
 
 function createFavoriteCard(countryName) {
