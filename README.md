@@ -6,7 +6,7 @@
 ## Live Website
 
 You can access the live website hosted on Netlify at:  
-[Country Explorer](https://your-netlify-url.com)
+[Country Explorer](https://celadon-kheer-9c0b72.netlify.app/)
 
 ## Setup Instructions
 
